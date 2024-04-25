@@ -7,9 +7,9 @@ std::string AskMe() {
 	return user_name;
 }
 
-int WriteInTable( string high_scores_filename, 
-	                string user_name, 
-	                int    attempts_count ) {
+int WriteInTable( const string & high_scores_filename, 
+	                const string & user_name, 
+	                      int    attempts_count ) {
 	// We should open the output file in the append mode - we don't want
 	// to erase previous results.
 	std::ofstream out_file{ high_scores_filename, std::ios_base::app };
