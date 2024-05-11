@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <iostream>
 
 class Point {
   public:
@@ -7,6 +8,7 @@ class Point {
     inline Point(double x, double y) : x{x}, y{y} {};
     double x{};
     double y{};
+    friend std::istream& operator>>(std::istream& , Point& );
 };
 
 inline Point operator-(const Point& lhs, const Point& rhs) {

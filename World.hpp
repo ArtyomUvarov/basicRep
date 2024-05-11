@@ -24,3 +24,4 @@ class World {
     // учтен при прошлой симуляции. См. реализацию update
     double restTime = 0.;
 };
+

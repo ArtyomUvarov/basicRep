@@ -1,12 +1,27 @@
 #include "Ball.hpp"
 #include <cmath>
 
+Ball::Ball( const Point &    center, 
+            const Velocity & velo, 
+            const Color &    color,
+                  double     rad, 
+                  double     mass )
+  : _center( center ),
+    _velo  ( velo   ),
+    _color ( color  ),
+    _rad   ( rad    ),
+    _mass  ( mass   )
+  
+{
+}
+
 /**
  * Задает скорость объекта
  * @param velocity новое значение скорости
  */
 void Ball::setVelocity(const Velocity& velocity) {
     // TODO: место для доработки
+  _velo = velocity;
 }
 
 /**
@@ -14,7 +29,7 @@ void Ball::setVelocity(const Velocity& velocity) {
  */
 Velocity Ball::getVelocity() const {
     // TODO: место для доработки
-    return {};
+    return _velo;
 }
 
 /**
@@ -27,6 +42,7 @@ Velocity Ball::getVelocity() const {
  */
 void Ball::draw(Painter& painter) const {
     // TODO: место для доработки
+  painter.draw( _center, _rad, _color );
 }
 
 /**
@@ -35,6 +51,7 @@ void Ball::draw(Painter& painter) const {
  */
 void Ball::setCenter(const Point& center) {
     // TODO: место для доработки
+  _center = center;
 }
 
 /**
@@ -42,7 +59,7 @@ void Ball::setCenter(const Point& center) {
  */
 Point Ball::getCenter() const {
     // TODO: место для доработки
-    return {};
+    return _center;
 }
 
 /**
@@ -52,7 +69,7 @@ Point Ball::getCenter() const {
  */
 double Ball::getRadius() const {
     // TODO: место для доработки
-    return {};
+    return _rad;
 }
 
 /**
@@ -64,5 +81,23 @@ double Ball::getRadius() const {
  */
 double Ball::getMass() const {
     // TODO: место для доработки
-    return {};
+    return _mass;
+}
+
+
+std::istream& operator>>(std::istream& stream, Point& point) {
+  stream >> point.x >> point.y;
+  return stream;
+}
+
+std::istream& operator>>(std::istream& stream, Velocity& velo) {
+  Point pt;
+  stream >> pt;
+  velo.setVector(pt);
+  return stream;
+}
+
+std::istream& operator>>(std::istream& stream, Color& color) {
+  stream >> color.r>> color.g >> color.b;
+  return stream;
 }

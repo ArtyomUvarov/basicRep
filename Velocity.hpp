@@ -24,7 +24,7 @@ class Velocity {
     inline Point vector() const {
         return vec;
     }
-
+    friend std::istream& operator>>(std::istream&, Velocity&);
   private:
     Point vec;
 };
