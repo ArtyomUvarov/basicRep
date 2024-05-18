@@ -93,7 +93,7 @@ std::istream& operator>>(std::istream& stream, Point& point) {
 std::istream& operator>>(std::istream& stream, Velocity& velo) {
   Point pt;
   stream >> pt;
-  velo.setVector(pt);
+  velo.setVector( pt );
   return stream;
 }
 
