@@ -62,7 +62,8 @@ World::World(const std::string& worldFilePath) {
 
         // После того как мы каким-то образом
         // сконструируем объект Ball ball;
-        Ball ball( pt, velo, color, radius, 0.1 );
+        double mass = M_PI * pow( radius, 3 ) * 4.0 / 3.0;
+        Ball ball( pt, velo, color, radius, mass );
         // добавьте его в конец контейнера вызовом
         balls.push_back( ball );
     }
