@@ -16,10 +16,10 @@ public:
         const Color  &   color,
               double     rad,
               double     mass );
-   void setVelocity(const Velocity& velocity);
+   void setVelocity(const Velocity & velocity);
    Velocity getVelocity() const;
-   void draw(Painter& painter) const;
-   void setCenter(const Point& center);
+   void draw(Painter & painter) const;
+   void setCenter(const Point & center);
    Point getCenter() const;
    double getRadius() const;
    double getMass() const;
