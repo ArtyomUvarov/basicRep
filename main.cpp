@@ -14,29 +14,21 @@ void print_container( T& container )
 
 template <typename T>
 void test_conteiner( T& int_container ){
-	int_container.push_back( 0 );
-  int_container.push_back( 1 );
-	int_container.push_back( 2 );
-  int_container.push_back( 3 );
-  int_container.push_back( 4 );
-	int_container.push_back( 5 );
-	int_container.push_back( 6 );
-	int_container.push_back( 7 );
-	int_container.push_back( 8 );
-	int_container.push_back( 9 );
+	for (int i = 0; i < 10; ++i)
+	int_container.push_back( i );
 	print_container( int_container );
 	std::cout << std::endl;
 	std::cout << int_container.size() << std::endl;
-	int_container.erase( 3 );
+	int_container.erase( 2 );
+  int_container.erase( 3 );
   int_container.erase( 4 );
-  int_container.erase( 5 );
  	print_container( int_container );
 	std::cout << std::endl;
-
+	
 	int_container.insert( 0, 10 );
 	print_container(int_container);
 	std::cout << std::endl;
-
+	
 	int_container.insert( 4, 20 );
 	print_container( int_container );
 	std::cout << std::endl;
@@ -44,6 +36,7 @@ void test_conteiner( T& int_container ){
 	int_container.insert( int_container.size(), 30 );
 	print_container( int_container );
 	std::cout << std::endl;
+	
 }
 
 int main()

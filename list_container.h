@@ -11,7 +11,7 @@ public:
 		T data; // пользовательские данные (хранимый объект)
 	};
 
-	ListContainer() : m_last{ nullptr }, m_size{ 0 } {}
+	ListContainer() : m_last{ nullptr }, m_first{ nullptr }, m_size{ 0 } {}
 	 
 	void push_back( const T & value ) {
  		Node * new_node = new Node{}; // создание нового узла
@@ -20,27 +20,48 @@ public:
 		new_node->data = value; // сохраняем пользовательские данные
 		if ( m_last != nullptr )
 		  m_last->next = new_node;
+		else
+			m_first = new_node;
+
 		m_last = new_node; // обновляем указатель на последний
 		m_size += 1; // обновляем размер
 	}
 
-	 T & operator[] ( size_t ind )  {
-		size_t count = m_size-1;
-		T * currentData = nullptr;
-		Node * current_last = m_last;
+	Node * Iterator( size_t ind ) {
+		size_t count = m_size - 1;
+		Node * current = m_last;
 
-		while( count >= ind ) {
-			if ( current_last != nullptr ) {
-				currentData = &current_last->data;
-				current_last = current_last->prev;
+		if ( ind > count / 2 ) {
+			while ( count > ind ) {
+				if (current != nullptr) {
+					current = current->prev;
+				}
+				else
+					break;
+				count--;
 			}
-			else
-				break;
-			count--;
 		}
+		else {
+			current = m_first;
+			count = 0;
+			while ( count < ind ) {
+				if ( current != nullptr ) {
+					current = current->next;
+				}
+				else
+					break;
+				count++;
+			}
+		}
+	
+		return current;
+	}
 
-		if ( currentData != nullptr )
-  	  return *currentData;
+	 T & operator[] ( size_t ind )  {
+		 Node * current = Iterator( ind );
+
+		 if ( current != nullptr )
+			 return current->data;
 		else 
 			return *new T();
 	
@@ -49,75 +70,57 @@ public:
 
 	bool erase( int pos )
 	{
-		int arrayInd = pos - 1;
-
-		if ( arrayInd >= m_size || arrayInd < 0 )
+	
+		if ( pos >= m_size || pos < 0 )
 		{
 			// invalid position
+			std::cout << "out of range";
 			return false;
 		}
+		
+		Node * current = Iterator( pos );
 
-		size_t count = m_size - 1;
-		T currentData;
-		Node * current_last = m_last;
-
-		while ( count > arrayInd )
-		{
-			if ( current_last != nullptr ) {
-				currentData = current_last->data;
-				current_last = current_last->prev;
+ 		if ( current != nullptr ) {
+		  Node * prevNode = current->prev;
+		  Node * nextNode = current->next;
+			if ( prevNode != nullptr ) 
+			  prevNode->next = nextNode;
+			if ( nextNode != nullptr) {
+			  nextNode->prev = prevNode;
+				if ( pos == 0 )
+					m_first = nextNode;
 			}
-			else 
-				break;
-			count--;
-		}
-
- 		if ( current_last != nullptr ) {
-		  Node * prevNode = current_last->prev;
-		  Node * nextNode = current_last->next;
-			if ( prevNode != nullptr && nextNode != nullptr ) {
-			prevNode->next = nextNode;
-			nextNode->prev = prevNode;
-			delete current_last;
+      delete current;
 			m_size -= 1;
-			}
 		}
+
 		return true;
 
 	}
 
 	bool insert( size_t pos, const T& value ) {
-		if ( pos > m_size || pos < 0 )
+		if ( pos > m_size || pos < 0 ) {
 			// invalid position
+			std::cout << "out of range";
 			return false;
+		}
 		
 		if ( pos == m_size ) {
 			push_back( value );
 			return true;
 		}
+	
+		Node * current = Iterator( pos );
 
-		size_t count = m_size - 1;
-		T currentData;
-		Node * current_last = m_last;
-
-		while ( count > pos )
-		{
-			if (current_last != nullptr) {
-				currentData = current_last->data;
-				current_last = current_last->prev;
-			}
-			else
-				break;
-			count--;
-		}
-
-		if ( current_last != nullptr ) {
-			Node * prevNode = current_last->prev;
+		if ( current != nullptr ) {
+			Node * prevNode = current->prev;
 			Node * new_node = new Node{}; // создание нового узла
 	    new_node->data = value; // сохраняем пользовательские данные
-      new_node->next = current_last; // следующего элемента пока нет
-      current_last->prev= new_node;
+      new_node->next = current; // следующего элемента пока нет
+      current->prev= new_node;
 			new_node->prev = prevNode; // предыдущим элементом станет последний		
+			if ( pos == 0 )
+				m_first = new_node;
 		  if ( prevNode != nullptr )
 			  prevNode->next = new_node;	
 			m_size += 1;	
@@ -130,5 +133,6 @@ public:
 
 private:
 	Node * m_last;
+	Node * m_first;
 	size_t m_size;
 };
