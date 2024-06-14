@@ -80,7 +80,7 @@ TEST_F(ListFix, Erase) {
   ASSERT_EQ(list.size(), 9); //удаление произошло
   // проверяем, что удалился элемент между 4 и 6.
   ASSERT_EQ(*(prevIter), 4);
-  ASSERT_EQ(*(++iter), 6);
+  ASSERT_EQ(*(++prevIter), 6);
 }
 
 TEST_F(ListFix, Size) {
