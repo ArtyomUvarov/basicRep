@@ -86,10 +86,10 @@ struct HyperComplex {
 };
 
 // Функция вычисляет производную для орбиты точки множества Мандельброта
-float mandelDeriv( const HyperComplex & compl,
+float mandelDeriv( const HyperComplex & complex,
                         size_t          n, 
                         float           dr ) {
-  return n * std::pow( compl.coord.norm(), n - 1 ) * dr + 1.0;
+  return n * std::pow( complex.coord.norm(), n - 1 ) * dr + 1.0;
 }
 
 // Функция вычисляет цвет точки на множестве по длине производной ее орбиты dr/
@@ -106,7 +106,7 @@ return color * 0.5;
 
 // Функция определяет принадлежит ли точка compl множеству. При этом возвращается расстояние до множества dist и цвет точки orb.
 bool Mandel( const MandelParameters & param,
-             const HyperComplex &     compl,
+             const HyperComplex &     complex,
                    float &            dist,
                    Vec3f &            orb ) {
   bool additColor = param.derive_color;
@@ -125,7 +125,7 @@ bool Mandel( const MandelParameters & param,
         break;
       }
     dr = mandelDeriv( startPt, mandel_pow, dr );
-    startPt = startPt.Pow(mandel_pow) + compl;
+    startPt = startPt.Pow(mandel_pow) + complex;
   }
 
   float r1 = startPt.coord.norm();
